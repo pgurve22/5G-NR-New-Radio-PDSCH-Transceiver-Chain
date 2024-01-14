@@ -33,4 +33,5 @@ The selection of a base graph depends on the size of the transport block being t
 
 **LDPC BaseGraph type is determined by Transport Size (A) and Code Rate(R)  based on following criteria -**
 
+![fig2](fig3.png)
 
