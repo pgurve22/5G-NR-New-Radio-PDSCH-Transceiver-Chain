@@ -8,3 +8,8 @@ PDSCH is a downlink physical channel that deliver user data from gNodeB to UE. T
 ## PDSCH Transport Process
 Following diagram outlines the PDSCH (Physical Downlink Shared Channel) Transport Process and shows corresponding 3GPP specification for each process.
 
+![fig1](blkdiag.png)
+
+
+
+![fig2](fig2.png)
