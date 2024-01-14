@@ -16,16 +16,15 @@ The transport block CRC attachment in 5G PDSCH channel processing is a step that
 ![fig2](fig2.png)
 
 Let's break this down into steps:
+- The data from the transport block, represented as a sequence of bits a0, a1, a2, ..., aA-1, is prepared for CRC attachment to enable error detection at the receiver end.
+- If the size of the transport block A is greater than 3824, a 24-bit CRC is attached using the generator polynomial GCRC24(D).
+- If the size of the transport block A is less than or equal to 3824, a 16-bit CRC is used instead, with the polynomial GCRC16(D).
+- The CRC is computed and appended to the data sequence, resulting in an extended sequence a0, a1, a2, ..., aA-1 | p0, p1, p2, ..., pL-1.
+- The length L of the CRC is set to 24 when A > 3824 and 16 otherwise, to accommodate the CRC bits.
+- The resulting sequence after CRC attachment is represented as b0, b1, b2, ..., bB-1, where B = A + L, indicating the new length of the sequence.
+- This CRC attachment process is essential for ensuring reliable data transmission over the wireless channel by allowing error detection at the UE.
 
-• The data from the transport block, represented as a sequence of bits a0, a1, a2, ..., aA-1, is prepared for CRC attachment to enable error detection at the receiver end.
-• If the size of the transport block A is greater than 3824, a 24-bit CRC is attached using the generator polynomial GCRC24(D).
-• If the size of the transport block A is less than or equal to 3824, a 16-bit CRC is used instead, with the polynomial GCRC16(D).
-• The CRC is computed and appended to the data sequence, resulting in an extended sequence a0, a1, a2, ..., aA-1 | p0, p1, p2, ..., pL-1.
-• The length L of the CRC is set to 24 when A > 3824 and 16 otherwise, to accommodate the CRC bits.
-• The resulting sequence after CRC attachment is represented as b0, b1, b2, ..., bB-1, where B = A + L, indicating the new length of the sequence.
-• This CRC attachment process is essential for ensuring reliable data transmission over the wireless channel by allowing error detection at the UE.
-
-### • LDPC base graph selection
+### • LDPC base graph selection:
 LDPC graph selection is the step that enables efficient channel coding tailored to the transport block size, ensuring reliable data transmission and optimized performance.
 
 5G NR specifies two base graphs for LDPC encoding, known as Base Graph 1 and Base Graph 2. Each base graph has a predefined size, with Base Graph 1 being larger than Base Graph 2.
