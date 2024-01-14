@@ -74,9 +74,29 @@ The Purpose of Rate matching is to adapts the output data rate of the channel en
 
 - B**it Puncturing:** Discards some of the encoded bits (usually parity bits) if the number of encoded bits exceeds the allocated resources.
 
-
 ![fig2](fig5.png)
+
+### Code Block Concatenation
+This is the step that combines the multiple code blocks resulting from the previous processing steps into a single data stream for transmission.
+
+After rate matching, the processed code blocks are combined into a single data stream. The concatenation is performed in a specific order to ensure that the receiver (UE) can correctly separate and decode the individual code blocks. Typically, the code blocks are concatenated in the order they were segmented from the original transport block.
 
 ![fig2](fig6.png)
 
+### Scrambling
+Scrambling process is the step that introduces randomness to the transmitted data, ensuring uniform power distribution, interference management, data privacy, and accurate channel estimation. Scrambling and descrambling operations are performed at the transmitter and receiver, respectively, using the same cell-specific scrambling sequence. Scrambling introduces randomness to the transmitted data by applying a pseudo-random binary sequence (PRBS) to the data stream. This operation ensures that the transmitted signal has a uniform power distribution across different frequency and time resources. Scrambling also aids in mitigating inter-cell interference, improving data privacy, and allowing the receiver (UE) to perform accurate channel estimation. Some of highlights of this process are :
+
+Scrambling Sequence: The scrambling process uses a cell-specific scrambling sequence generated based on the cell ID and a scrambling identity. The scrambling identity can be unique for each user (UE) within a cell, ensuring that the scrambling sequences used by different UEs are orthogonal to each other.
+Bitwise XOR: The scrambling process involves a bitwise exclusive-or (XOR) operation between the input data stream (resulting from the code block concatenation step) and the scrambling sequence. The output of this operation is a scrambled data stream.
+Impact on Data Rate: Scrambling does not change the data rate, as it only modifies the data stream by introducing randomness. The data rate is determined by other channel processing steps, such as LDPC encoding and rate matching.
+
 ![fig2](fig7.png)
+
+8) Modulation
+The modulation step is essential for converting the binary data stream into complex symbols suitable for wireless transmission. The choice of modulation scheme affects the data rate, spectral efficiency, and robustness against noise and interference. In 5G, 4 different modulation schemes are supported as of now.
+
+QPSK: QPSK modulates 2 bits per symbol, offering low data rates with high robustness against noise and interference.
+16QAM: 16QAM modulates 4 bits per symbol, providing a balance between data rate and robustness.
+64QAM: 64QAM modulates 6 bits per symbol, enabling higher data rates but with reduced robustness compared to QPSK and 16QAM.
+256QAM: 256QAM modulates 8 bits per symbol, offering the highest data rates with the lowest robustness among the supported modulation schemes.
+The choice of modulation scheme depends on factors such as channel conditions, link adaptation, and UE capabilities.
