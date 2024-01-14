@@ -35,6 +35,15 @@ The selection of a base graph depends on the size of the transport block being t
 
 ![fig2](fig3.png)
 
+### • Code block segmentation And Code Block CRC Attachment :
+This step is to ensure efficient and reliable data transmission by dividing large transport blocks into smaller segments and providing error detection capabilities at the code block level. We can think of this with a few different perspectives/steps summarized below.
+
+- Code Block Segmentation: If the size of a transport block is too large for efficient LDPC (Low-Density Parity-Check) coding, it is divided into smaller segments, called code blocks. The maximum size of a code block is defined by the 5G NR specifications. Segmentation is performed to ensure efficient channel coding and decoding while maintaining a reasonable complexity.
+
+- Segmentation Criteria: The segmentation process is determined by comparing the transport block size with a specified maximum code block size. If the transport block size exceeds the maximum code block size, the transport block is divided into equal-sized code blocks (with the exception of the last code block, which may be smaller). If the transport block size is within the maximum code block size, no segmentation is performed.
+
+- Code Block CRC Attachment: After segmentation, a CRC (Cyclic Redundancy Check) is calculated and attached to each code block individually. This 24-bit CRC allows for error detection at the receiver (UE) on a per-code-block basis.
+
 ![fig2](fig4.png)
 
 ![fig2](fig5.png)
