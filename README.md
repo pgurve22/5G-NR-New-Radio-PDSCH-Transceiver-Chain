@@ -31,4 +31,6 @@ LDPC graph selection is the step that enables efficient channel coding tailored 
 
 The selection of a base graph depends on the size of the transport block being transmitted over the PDSCH. If the transport block size is larger than a certain threshold, Base Graph 1 is used; otherwise, Base Graph 2 is employed. The smaller Base Graph 2 is more suitable for smaller transport blocks, as it offers a better trade-off between complexity and performance.
 
-LDPC BaseGraph type is determined by Transport Size (A) and Code Rate(R)  based on following criteria.
+**LDPC BaseGraph type is determined by Transport Size (A) and Code Rate(R)  based on following criteria -**
+
+
