@@ -35,3 +35,10 @@ The selection of a base graph depends on the size of the transport block being t
 
 ![fig2](fig3.png)
 
+![fig2](fig4.png)
+
+![fig2](fig5.png)
+
+![fig2](fig6.png)
+
+![fig2](fig7.png)
