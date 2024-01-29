@@ -1,9 +1,7 @@
 clear;
 clc;
 fprintf("For N = 20496\n  PRBs = 100\n  Modulation order = 2\n");
-fprintf("\n");
-fprintf("For N = 28168\n  PRBs = 70\n  Modulation order = 4\n");
-prompt = "Enter the length of transport block for MCS 9 -"; 
+prompt = "Enter the length of transport block for MCS 9 - "; 
 fprintf("\n");
 N = input(prompt);
 message = randi([0,1],1,N);
@@ -19,10 +17,10 @@ kb = 22;                  %for base graph one
 %gCRC24c polynomial's degrees with coefficient equal to one
 gCRC24c = [0,1,2,4,8,12,13,15,17,20,21,23,24];
 
-%generating array of 25bits 
+%generating array of 25bits------
 gen_poly = zeros(1,25);
 
-%Appending ones according to the gCRC24c polynomial 
+%Appending ones according to the gCRC24c polynomial------
 for i=gCRC24c
     gen_poly(i+1)=1; 
 end
@@ -35,7 +33,7 @@ gen_poly = flip(gen_poly);
 %= 24
 append_zeros = zeros(1,24);
 
-%message squences with appended zero
+%message squences with appended zero------
 message= [message append_zeros];
 
 %CRC append----------
@@ -106,7 +104,7 @@ rows = zeros(C*M,len);
 %Writing-----                                     
 for i=1:C
     for j=1:M
-        rows(j+(2*i)-2,1:len) = Rate_matched_output(i,((j-1)*len)+1:len*j);
+        rows((M*(i-1))+j,1:len) = Rate_matched_output(i,((j-1)*len)+1:len*j);
     end
 end
 
@@ -125,6 +123,7 @@ for i=1:C
 end
 
 %Random sequence generator------
+%Gold sequence of length 31 bits--------
 x1_of_n = zeros(1,31);
 x1_of_n(1) = 1;
 
@@ -137,12 +136,12 @@ for i=1:G+1600-31
     x2_of_n(i+31) = xor(x2_of_n(i+31),x2_of_n(i+3));
     x2_of_n(i+31) = xor(x2_of_n(i+31),x2_of_n(i+4));
 end
-
 c_of_n = xor(x1_of_n,x2_of_n);
+
 %Ignoring the first 1600 bits of squence-----
 c_of_n1(1:G) = c_of_n(1600+1:G+1600); 
 
-% Scrambling-------
+%Scrambler-------
 scrambled_bits = zeros(1,G);
 for i=1:G
     scrambled_bits(i) = xor(concat_of_CB_row_vect(i),c_of_n1(i));
@@ -163,7 +162,7 @@ quad_bits=scrambled_bits_col_vect((leng/2)+1:leng,1);
 inphase_bits=(2*inphase_bits)-1;
 quad_bits=(2*quad_bits)-1;
 
-%generating the QPSK symbols-------
+%Generating the QPSK symbols-------
 qpsk_sym = inphase_bits+sqrt(-1)*quad_bits;
 mod_output = qpsk_sym;
 
@@ -173,10 +172,10 @@ noise_power = sqrt(0.00001);
 inphase_noise = rand(length(inphase_bits),1);
 quad_noise = rand(length(quad_bits),1);
 
-%generating complex noise-------
+%Generating complex noise-------
 noise = noise_power*(inphase_noise+sqrt(-1)*quad_noise);
 
-%recieved symbols after transmission-----
+%Received symbols after transmission-----
 rx_sym = mod_output + noise;
 real1 = real(rx_sym);
 imag1 = imag(rx_sym);
@@ -195,19 +194,18 @@ demod_output_i = llr_i;
 llr0_q =  abs(-1 + imag1);   
 llr1_q =  abs(1 + imag1);    
 
-%ldpc decoder requires log(p(r/0)/p(r/1))------
+%LDPC decoder requires log(p(r/0)/p(r/1))------
 llr_q = log(llr0_q./llr1_q);  
 
-%demodulated quadrature bits-----------
+%Demodulated quadrature bits-----------
 demod_output_q = llr_q; 
 
-%total demodulated output i.e. first half for iphase bits and first half
+%Total demodulated output i.e. first half for iphase bits and second half
 %for quadrature bits---------
 demod_output=[demod_output_i;demod_output_q];
 punctured_bits=-0.5*ones(C_dash-E,C);
 
-%Descrambling------
-%descrambled_bits = zeros(1,G);
+%Descrambler------
 c_dash = (-2*c_of_n1)+1;
 descrambled_bits = (demod_output').*c_dash;
 
@@ -220,14 +218,6 @@ end
 %Deinterleaver-------
 rows = zeros(C*M,len);
 
-% %Reading-------
-% for i=1:C
-%     for j=1:len
-%         rows((2*i)-1,j)=segment_CB(i,(2*j)-1);
-%         rows((2*i),j) = segment_CB(i,2*j);
-%     end
-% end
-
 %Reading-------
 for i=1:C
     for j=1:M
@@ -236,12 +226,6 @@ for i=1:C
         end
     end
 end
-
-% %Writing------
-% deinterleaved_output = zeros(C,E);
-% for i=1:C
-%     deinterleaved_output(i,1:E) = [rows((2*i)-1,1:len) rows((2*i),1:len)];
-% end
 
 %Writing-----
 deinterleaved_output = zeros(C,E);
@@ -288,32 +272,14 @@ else
     fprintf("TB CRC Validation output = 0\n")
 end
 
-%received transport block----------- 
-%original_message is nothing but our input message------
+%Received transport block----------- 
+%Original_message is nothing but our input message------
 TB_det = TB_det(1:N);
 if original_message == original_TB_det
     fprintf("Message detection output = 1\n")
 else
     fprintf("Message detection output = 0\n")
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
